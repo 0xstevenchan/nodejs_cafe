@@ -1,0 +1,259 @@
+<!DOCTYPE html>
+<html lang="zh-Hant-TW">
+<head>
+    <meta charset="utf-8">
+    <title>WCB Cafe - Contact Manager</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="https://unpkg.com/ress/dist/ress.min.css">
+    <link href="https://fonts.googleapis.com/css?family=Philosopher" rel="stylesheet">
+    <link href="../css/style.css" rel="stylesheet">
+    <link href="../css/admin.css" rel="stylesheet">
+    <script src="../js/admin/auth.js"></script>
+    <style>
+        .admin-content {
+            padding: 2rem;
+            background: rgba(255, 255, 255, 0.9);
+            border-radius: 10px;
+            margin-top: 2rem;
+        }
+        .admin-controls {
+            margin-bottom: 1rem;
+        }
+        .admin-button {
+            padding: 0.5rem 1rem;
+            margin-right: 0.5rem;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            background: #f8f9fa;
+            color: #333;
+        }
+        .admin-button.active {
+            background: #0bd;
+            color: white;
+        }
+        .content-wrapper {
+            padding: 1rem;
+            background: white;
+            border-radius: 8px;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+        }
+        .data-row {
+            background: white;
+            padding: 1.5rem;
+            border-radius: 8px;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+            margin-bottom: 1rem;
+            transition: transform 0.3s ease;
+        }
+        .data-row:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 8px rgba(0,0,0,0.15);
+        }
+        .data-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 1rem;
+        }
+        .data-title {
+            font-size: 1.2rem;
+            color: #432;
+            font-weight: bold;
+        }
+        .data-date {
+            color: #666;
+            font-size: 0.9rem;
+        }
+        .data-email {
+            color: #0bd;
+            margin-bottom: 0.5rem;
+        }
+        .data-content {
+            color: #333;
+            line-height: 1.5;
+            margin-bottom: 1rem;
+        }
+        .data-actions {
+            display: flex;
+            align-items: center;
+        }
+        .status-badge {
+            display: inline-block;
+            padding: 0.3rem 0.8rem;
+            border-radius: 15px;
+            font-size: 0.9rem;
+            margin-right: 1rem;
+        }
+        .status-pending {
+            background: #fff3cd;
+            color: #856404;
+        }
+        .status-inProgress {
+            background: #cce5ff;
+            color: #004085;
+        }
+        .status-done {
+            background: #d4edda;
+            color: #155724;
+        }
+        .no-data {
+            text-align: center;
+            padding: 2rem;
+            color: #666;
+        }
+        .new-message {
+            background-color: #f7f7f7;
+        }
+    </style>
+</head>
+<body>
+    <div id="admin" class="big-bg">
+        <audio id="notificationSound" src="/music/msg-notif-sound.mp3" preload="auto"></audio>
+        <header class="page-header wrapper">
+            <h1><a href="/"><img class="logo" src="/images/logo.svg" alt="WCB Cafe 首頁"></a></h1>
+            <nav>
+                <ul class="main-nav">
+                    <li><a href="/admin/">Dashboard</a></li>
+                    <li><button onclick="handleLogout()" class="logout-btn">Logout</button></li>
+                </ul>
+            </nav>
+        </header>
+
+        <div class="wrapper">
+            <h2 class="page-title">Contact Manager</h2>
+            
+            <div class="admin-content">
+                <div class="admin-controls">
+                    <button class="admin-button" data-status="active">Active</button>
+                    <button class="admin-button" data-status="done">Done</button>
+                    <button class="admin-button" data-status="all">All</button>
+                </div>
+
+                <div class="content-wrapper">
+                    <div id="contactList" class="contact-list">
+                        <!-- Contacts will be loaded here -->
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        let currentMessages = new Set();
+        const notificationSound = document.getElementById('notificationSound');
+
+        // Load contacts when page loads
+        document.addEventListener('DOMContentLoaded', async function() {
+            // Set Active as default selected
+            const activeButton = document.querySelector('[data-status="active"]');
+            if (activeButton) {
+                activeButton.classList.add('active');
+            }
+            
+            await loadContacts();
+            setupFilterButtons();
+            
+            // Auto refresh every 30 seconds
+            setInterval(() => {
+                const activeFilter = document.querySelector('.admin-button.active')?.dataset.status || 'active';
+                loadContacts(activeFilter);
+            }, 30000);
+        });
+
+        function setupFilterButtons() {
+            const buttons = document.querySelectorAll('.admin-button');
+            buttons.forEach(button => {
+                button.addEventListener('click', function() {
+                    buttons.forEach(btn => btn.classList.remove('active'));
+                    this.classList.add('active');
+                    loadContacts(this.dataset.status);
+                });
+            });
+        }
+
+        async function loadContacts(status = 'active') {
+            const contactList = document.getElementById('contactList');
+            try {
+                const response = await fetch(`/api/messages/check?status=${status}`, {
+                    method: 'GET',
+                    credentials: 'include',
+                    headers: {
+                        'Accept': 'application/json',
+                        'Content-Type': 'application/json'
+                    }
+                });
+
+                if (!response.ok) {
+                    throw new Error(`HTTP error! status: ${response.status}`);
+                }
+
+                const contacts = await response.json();
+                
+                // Check for new messages
+                const newMessageIds = new Set(contacts.map(c => c._id));
+                const hasNewMessages = contacts.some(contact => 
+                    contact.progress === 'inProgress' && !currentMessages.has(contact._id)
+                );
+
+                // Play sound if there are new messages
+                if (hasNewMessages && currentMessages.size > 0) {
+                    notificationSound.play().catch(e => console.log('Error playing sound:', e));
+                }
+
+                // Update current messages set
+                currentMessages = newMessageIds;
+                
+                if (contacts.length === 0) {
+                    contactList.innerHTML = '<div class="no-data">No contacts found</div>';
+                    return;
+                }
+
+                contactList.innerHTML = contacts.map(contact => `
+                    <div class="data-row ${!currentMessages.has(contact._id) ? 'new-message' : ''}">
+                        <div class="data-header">
+                            <div class="data-title">${contact.name}</div>
+                            <div class="data-date">${new Date(contact.createdAt).toLocaleString()}</div>
+                        </div>
+                        <div class="data-email">${contact.email}</div>
+                        <div class="data-content">${contact.message}</div>
+                        <div class="data-actions">
+                            <span class="status-badge status-${contact.progress}">${contact.progress}</span>
+                            ${contact.progress === 'inProgress' ? `
+                                <button class="admin-button" onclick="updateStatus('${contact._id}', 'done')">Mark as Done</button>
+                            ` : `
+                                <button class="admin-button" onclick="updateStatus('${contact._id}', 'inProgress')">Reopen</button>
+                            `}
+                        </div>
+                    </div>
+                `).join('');
+            } catch (error) {
+                console.error('Error loading contacts:', error);
+                contactList.innerHTML = '<div class="no-data">Error loading contacts: ' + error.message + '</div>';
+            }
+        }
+
+        async function updateStatus(id, newStatus) {
+            try {
+                const response = await fetch(`/api/messages/${id}/status`, {
+                    method: 'PUT',
+                    credentials: 'include',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify({ status: newStatus })
+                });
+
+                if (!response.ok) {
+                    throw new Error(`HTTP error! status: ${response.status}`);
+                }
+
+                loadContacts(); // Reload the list after update
+            } catch (error) {
+                console.error('Error updating status:', error);
+                alert('Failed to update status');
+            }
+        }
+    </script>
+</body>
+</html>

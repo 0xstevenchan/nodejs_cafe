@@ -1,0 +1,155 @@
+/* 
+ * Form Styles Backup for dialogue.html
+ * Created: 2025-01-15
+ * This file contains all CSS related to form layout and styling
+ */
+
+/* Form Container and Layout
+------------------------------- */
+.form-container {
+    width: 90%;
+    margin: 0 auto;
+    background: linear-gradient(145deg, rgba(255, 255, 255, 0.98), rgba(255, 255, 255, 0.94));
+    border-radius: 15px;
+    padding: 40px;
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+}
+
+#dialogueForm {
+    display: flex;
+    gap: 40px;
+    padding: 20px 0;
+}
+
+.form-left-column,
+.form-right-column {
+    flex: 1;
+}
+
+/* Form Elements
+------------------------------- */
+.form-container label {
+    display: block;
+    margin-bottom: 3px;
+    color: #433323;
+    font-size: 0.9rem;
+    font-weight: 500;
+}
+
+.form-container input[type="text"],
+.form-container input[type="email"] {
+    width: 100%;
+    min-width: 300px;
+    padding: 6px 10px;
+    border: 1px solid #ddd;
+    border-radius: 6px;
+    font-size: 0.9rem;
+    margin-bottom: 8px;
+    height: 28px;
+}
+
+.form-container textarea {
+    width: 100%;
+    min-width: 300px;
+    height: 120px !important;
+    padding: 6px 10px;
+    border: 1px solid #ddd;
+    border-radius: 6px;
+    resize: none;
+    font-size: 0.9rem;
+    margin-bottom: 8px;
+    line-height: 1.3;
+}
+
+.form-container .button {
+    padding: 6px 16px;
+    background: #433323;
+    color: #fff;
+    border: none;
+    border-radius: 6px;
+    font-size: 0.9rem;
+    cursor: pointer;
+    height: 28px;
+}
+
+/* Alternative Dialogue Form Styles
+------------------------------- */
+.dialogue-form-container {
+    width: 90% !important;
+    margin-left: 2% !important;
+    background: linear-gradient(145deg, rgba(255, 255, 255, 0.98), rgba(255, 255, 255, 0.94)) !important;
+    padding: 40px !important;
+    border-radius: 15px !important;
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1) !important;
+}
+
+.dialogue-form {
+    display: flex !important;
+    gap: 60px !important;
+}
+
+.dialogue-form-left {
+    flex: 0.8 !important;
+}
+
+.dialogue-form-right {
+    flex: 1.2 !important;
+}
+
+.dialogue-textarea {
+    width: 100% !important;
+    height: 280px !important;
+    padding: 12px 15px !important;
+    border: 1px solid #ddd !important;
+    border-radius: 8px !important;
+    font-size: 1rem !important;
+    resize: none !important;
+    margin-bottom: 20px !important;
+}
+
+/* Responsive Design
+------------------------------- */
+@media (max-height: 800px) {
+    .page-title {
+        font-size: 4rem;
+        margin-bottom: 0.5rem;
+    }
+    
+    form div {
+        margin-bottom: 1rem;
+    }
+    
+    textarea {
+        height: 60px;
+    }
+    
+    .form-container {
+        margin-top: 1rem;
+    }
+}
+
+@media (max-width: 600px) {
+    input[type="text"],
+    input[type="email"],
+    textarea {
+        max-width: 100%;
+    }
+    
+    #contact .page-title {
+        margin-top: 40px;
+    }
+    
+    .form-container {
+        padding: 20px;
+    }
+    
+    #dialogueForm {
+        flex-direction: column;
+        gap: 20px;
+    }
+    
+    .form-left-column,
+    .form-right-column {
+        width: 100%;
+    }
+}

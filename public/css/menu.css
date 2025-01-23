@@ -1,0 +1,194 @@
+@charset "UTF-8";
+
+/* Menu
+------------------------------- */
+#menu {
+    background-image: url(../images/menu-bg.jpg);
+    height: 66.67vh;  /* 2/3 of viewport height */
+    /* background-size: cover;
+    background-position: center top;
+    background-repeat: no-repeat;
+    margin-bottom: 2rem;
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    justify-content: center; */
+}
+
+.menu-content {
+    max-width: 560px;
+    margin: 0 auto;
+    padding: 0 4%;
+    text-align: center;
+    position: relative;
+    /* top: -2rem;  */
+    /* Adjust slightly up to account for header space */
+}
+
+.menu-content .page-title {
+    text-align: center;
+    margin-bottom: 1rem;
+}
+
+.menu-content p {
+    font-size: 1.125rem;
+    margin: 0;
+    line-height: 1.7;
+}
+
+/* Add a fade effect at the bottom */
+#menu::after {
+    content: '';
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    /* height: 50px; */
+    background: linear-gradient(to bottom, transparent, rgba(255, 255, 255, 0.9));
+    pointer-events: none;
+}
+
+/* Ensure content below has proper spacing */
+.menu-items-container {
+    margin-top: 2rem;
+    padding: 2rem 0;
+}
+
+/* Menu Grid Layout
+------------------------------- */
+.menu-grid {
+    display: flex;
+    flex-direction: column;
+    gap: 2rem;
+    padding: 2rem 0;
+}
+
+.menu-section {
+    background: rgba(255, 255, 255, 0.95);
+    padding: 2rem;
+    border-radius: 8px;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+}
+
+.section-title {
+    color: #432;
+    font-size: 1.5rem;
+    margin-bottom: 1.5rem;
+    text-align: center;
+    font-weight: bold;
+}
+
+.menu-items-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+    gap: 2rem;
+}
+
+.menu-item {
+    background: white;
+    border-radius: 8px;
+    overflow: hidden;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+    transition: transform 0.3s ease;
+}
+
+.menu-item:hover {
+    transform: translateY(-5px);
+}
+
+.menu-item-image {
+    width: 100%;
+    height: 200px;
+    overflow: hidden;
+}
+
+.menu-item-image img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    transition: transform 0.3s ease;
+}
+
+.menu-item:hover .menu-item-image img {
+    transform: scale(1.1);
+}
+
+.menu-item-content {
+    padding: 1.5rem;
+}
+
+.menu-item-title {
+    color: #432;
+    font-size: 1.25rem;
+    margin-bottom: 0.5rem;
+    font-weight: bold;
+}
+
+.menu-item-description {
+    color: #666;
+    font-size: 1rem;
+    margin-bottom: 1rem;
+    line-height: 1.5;
+}
+
+.menu-item-ingredients {
+    color: #888;
+    font-size: 0.9rem;
+    margin-bottom: 0.5rem;
+}
+
+.menu-item-dates {
+    color: #0066cc;
+    font-size: 0.9rem;
+    margin-bottom: 1rem;
+    font-weight: bold;
+}
+
+.error-message {
+    text-align: center;
+    color: #ff0000;
+    padding: 2rem;
+    background: rgba(255, 255, 255, 0.9);
+    border-radius: 8px;
+    margin: 2rem 0;
+}
+
+/* Media Queries
+------------------------------- */
+@media (max-width: 768px) {
+    #menu {
+        background-size: 92vw auto;
+    }
+    .menu-content {
+        max-width: 92vw;
+        margin-top: 4rem;
+    }
+    .menu-items-grid {
+        grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+        gap: 1.5rem;
+    }
+    .menu-section {
+        padding: 1.5rem;
+    }
+    .menu-item-image {
+        height: 180px;
+    }
+}
+
+@media (max-width: 600px) {
+    .menu-content {
+        margin-top: 4rem;
+    }
+}
+
+@media (max-width: 480px) {
+    .menu-items-grid {
+        grid-template-columns: 1fr;
+    }
+    .menu-section {
+        padding: 1rem;
+    }
+    .menu-item-image {
+        height: 160px;
+    }
+}

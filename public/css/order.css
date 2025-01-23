@@ -1,0 +1,191 @@
+/* Order page styles */
+body {
+    font-family: Arial, sans-serif;
+    line-height: 1.6;
+    margin: 0;
+    padding: 20px;
+    background-color: #f5f5f5;
+}
+
+h1 {
+    color: #333;
+    text-align: center;
+    margin-bottom: 30px;
+}
+
+.orders-container {
+    max-width: 1000px;
+    margin: 0 auto;
+    display: grid;
+    gap: 20px;
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+}
+
+.table-container {
+    background-color: white;
+    border-radius: 8px;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+    padding: 20px;
+    display: flex;
+    flex-direction: column;
+}
+
+.table-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 20px;
+}
+
+.table-number {
+    font-size: 1.3em;
+    color: #2c3e50;
+    margin: 0;
+}
+
+.paid-form {
+    margin: 0;
+}
+
+.paid-button {
+    background-color: #0bd;
+    color: white;
+    border: none;
+    padding: 8px 20px;
+    border-radius: 4px;
+    font-size: 0.9em;
+    cursor: pointer;
+    transition: background-color 0.2s;
+}
+
+.paid-button:hover {
+    background-color: #09a7c4;
+}
+
+.orders-table-wrapper {
+    overflow-x: auto;
+    margin-top: 10px;
+    border-radius: 4px;
+}
+
+.orders-table {
+    width: 100%;
+    border-collapse: collapse;
+}
+
+.orders-table th {
+    background-color: #f8f9fa;
+    color: #2c3e50;
+    font-weight: 600;
+    padding: 12px;
+    text-align: left;
+    border-bottom: 2px solid #dee2e6;
+    white-space: nowrap;
+}
+
+.orders-table td {
+    padding: 12px;
+    border-bottom: 1px solid #dee2e6;
+    vertical-align: middle;
+}
+
+.orders-table tr:last-child td {
+    border-bottom: none;
+}
+
+.order-row:hover {
+    background-color: #f8f9fa;
+}
+
+.item-name {
+    color: #333;
+    font-weight: 500;
+}
+
+.item-quantity {
+    color: #666;
+    font-weight: 500;
+}
+
+.order-time {
+    color: #666;
+    font-size: 0.9em;
+    white-space: nowrap;
+}
+
+.order-status {
+    text-align: center;
+}
+
+.status {
+    display: inline-block;
+    padding: 4px 8px;
+    border-radius: 4px;
+    font-size: 0.85em;
+    font-weight: 500;
+    text-align: center;
+    min-width: 60px;
+}
+
+.status.pending {
+    background-color: #fff3cd;
+    color: #856404;
+}
+
+.status.paid {
+    background-color: #d4edda;
+    color: #155724;
+}
+
+.empty-container {
+    text-align: center;
+    grid-column: 1 / -1;
+}
+
+.no-orders {
+    color: #666;
+    font-size: 1.2em;
+    margin: 0;
+}
+
+@media (max-width: 768px) {
+    body {
+        padding: 10px;
+    }
+
+    .orders-container {
+        grid-template-columns: 1fr;
+        gap: 15px;
+    }
+
+    .table-container {
+        padding: 15px;
+    }
+
+    .table-header {
+        margin-bottom: 15px;
+    }
+
+    .table-number {
+        font-size: 1.2em;
+    }
+
+    .paid-button {
+        padding: 6px 15px;
+        font-size: 0.85em;
+    }
+
+    .orders-table td,
+    .orders-table th {
+        padding: 10px;
+    }
+
+    .order-time {
+        font-size: 0.8em;
+    }
+
+    .status {
+        min-width: 50px;
+        padding: 3px 6px;
+    }
+}

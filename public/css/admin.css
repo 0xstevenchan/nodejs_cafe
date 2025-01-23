@@ -1,0 +1,866 @@
+/* Admin Styles */
+.admin-content {
+    background: rgba(255, 255, 255, 0.95);
+    padding: 2rem;
+    border-radius: 10px;
+    margin-top: 2rem;
+    max-width: 95% !important; /* Even wider for the admin section */
+}
+
+.admin-controls {
+    margin-bottom: 1rem;
+    display: flex;
+    gap: 1rem;
+}
+
+.admin-button {
+    background: #432;
+    color: #fff;
+    padding: 0.5rem 1rem;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.3s;
+}
+
+.admin-button:hover {
+    background: #643;
+}
+
+/* Menu Manager Styles */
+.content-wrapper {
+    padding: 20px;
+    background: #fff;
+    border-radius: 8px;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+    overflow-x: auto !important;
+    padding: 20px !important;
+    margin: 0 !important;
+    width: 100% !important;
+}
+
+.button-container {
+    display: flex;
+    gap: 10px;
+    margin-bottom: 20px !important;
+}
+
+.action-button {
+    padding: 10px 20px;
+    border: none;
+    border-radius: 4px;
+    background-color: #4CAF50;
+    color: white;
+    cursor: pointer;
+    font-weight: 500;
+    transition: background-color 0.3s;
+}
+
+.action-button:hover {
+    background-color: #45a049;
+}
+
+.action-button:disabled {
+    background-color: #cccccc;
+    cursor: not-allowed;
+}
+
+#menu-table {
+    width: 100% !important;
+    margin: 0 !important;
+    overflow-x: auto !important;
+    margin-top: 20px;
+    border-radius: 8px;
+    overflow: hidden;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+    min-width: 100%;
+    width: 100%;
+}
+
+/* Modal Styles */
+.modal {
+    display: none;
+    position: fixed;
+    z-index: 1000;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0,0,0,0.5);
+}
+
+.modal-content {
+    background-color: #fefefe;
+    margin: 5% auto;
+    padding: 20px;
+    border: 1px solid #888;
+    border-radius: 8px;
+    width: 80%;
+    max-width: 600px;
+    position: relative;
+}
+
+.close {
+    position: absolute;
+    right: 20px;
+    top: 10px;
+    font-size: 28px;
+    font-weight: bold;
+    cursor: pointer;
+}
+
+.close:hover {
+    color: #666;
+}
+
+/* Form Styles */
+.form-group {
+    margin-bottom: 15px;
+}
+
+.form-group label {
+    display: block;
+    margin-bottom: 5px;
+    font-weight: 500;
+}
+
+.form-group input[type="text"],
+.form-group input[type="date"],
+.form-group textarea {
+    width: 100%;
+    padding: 8px;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+    font-size: 14px;
+}
+
+.form-group textarea {
+    height: 100px;
+    resize: vertical;
+}
+
+.form-actions {
+    display: flex;
+    gap: 10px;
+    justify-content: flex-end;
+    margin-top: 20px;
+}
+
+.btn-primary {
+    background-color: #4CAF50;
+    color: white;
+    padding: 8px 16px;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+}
+
+.btn-primary:hover {
+    background-color: #45a049;
+}
+
+.btn-secondary {
+    background-color: #f44336;
+    color: white;
+    padding: 8px 16px;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+}
+
+.btn-secondary:hover {
+    background-color: #da190b;
+}
+
+/* Action Buttons in Table */
+.action-buttons {
+    display: flex;
+    gap: 4px;
+    justify-content: center;
+    align-items: center;
+    padding: 4px;
+}
+
+.action-buttons button {
+    padding: 4px 8px;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    font-size: 12px;
+    color: white;
+    min-width: 40px;
+}
+
+.action-column {
+    width: 150px !important;
+    min-width: 150px !important;
+}
+
+.action-buttons .edit-btn {
+    background-color: #4CAF50;
+}
+
+.action-buttons .edit-btn:hover {
+    background-color: #45a049;
+}
+
+.action-buttons .delete-btn {
+    background-color: #f44336;
+}
+
+.action-buttons .delete-btn:hover {
+    background-color: #da190b;
+}
+
+/* Table styles */
+.tabulator {
+    width: 100% !important;
+    border: 1px solid #dee2e6;
+    background-color: white;
+}
+
+.tabulator-tableHolder {
+    background-color: white;
+}
+
+.tabulator-row {
+    border-bottom: 1px solid #dee2e6;
+}
+
+.tabulator-row .tabulator-cell {
+    padding: 12px 8px;
+    border-right: 1px solid #dee2e6;
+}
+
+.tabulator-header {
+    background-color: #f8f9fa;
+    border-bottom: 2px solid #dee2e6;
+}
+
+.tabulator-col {
+    background-color: #f8f9fa;
+    border-right: 1px solid #dee2e6;
+    padding: 8px;
+}
+
+.tabulator-col-content {
+    padding: 8px;
+    font-weight: bold;
+}
+
+/* Ensure the table fills its container */
+#menu-table {
+    width: 100% !important;
+    margin: 20px 0;
+}
+
+/* Column header styles */
+.tabulator-col {
+    background-color: #f8f9fa;
+    border-right: 1px solid #dee2e6;
+    border-bottom: 2px solid #dee2e6;
+}
+
+.tabulator-col-content {
+    padding: 8px;
+}
+
+/* Cell styles */
+.tabulator-cell {
+    padding: 8px;
+    border-right: 1px solid #dee2e6;
+    border-bottom: 1px solid #dee2e6;
+}
+
+/* Make sure table fills container */
+.tabulator {
+    width: 100% !important;
+    margin: 0 !important;
+    border: 1px solid #ddd !important;
+}
+
+.tabulator-tableHolder {
+    width: 100% !important;
+}
+
+.tabulator-row {
+    width: 100% !important;
+}
+
+/* Fix column header alignment */
+.tabulator-col {
+    justify-content: center !important;
+}
+
+.tabulator-col-content {
+    width: 100% !important;
+}
+
+/* Ensure cell content doesn't wrap */
+.tabulator-cell {
+    white-space: nowrap !important;
+    overflow: hidden !important;
+    text-overflow: ellipsis !important;
+}
+
+/* Tabulator Customization */
+.tabulator {
+    width: auto !important;
+    min-width: 100% !important;
+    margin: 0 !important;
+    border: 1px solid #ddd !important;
+    border: none;
+    background-color: #ffffff;
+    font-family: inherit;
+    width: 100% !important;
+    margin: 0 !important;
+}
+
+.tabulator .tabulator-header {
+    background-color: #f8f9fa !important;
+    border-bottom: 2px solid #dee2e6 !important;
+    position: sticky !important;
+    top: 0 !important;
+    z-index: 10 !important;
+}
+
+.tabulator .tabulator-header .tabulator-col {
+    background-color: #f8f9fa !important;
+    border-right: 1px solid #dee2e6 !important;
+    padding: 8px !important;
+}
+
+.tabulator .tabulator-tableHolder {
+    overflow-x: auto !important;
+    min-width: 100%;
+}
+
+.tabulator .tabulator-tableHolder .tabulator-table {
+    background-color: #ffffff;
+}
+
+.tabulator .tabulator-row {
+    border-bottom: 1px solid #dee2e6 !important;
+}
+
+.tabulator .tabulator-row.tabulator-row-even {
+    background-color: #f8f9fa;
+}
+
+.tabulator .tabulator-row.tabulator-selectable:hover {
+    background-color: #e9ecef;
+}
+
+.tabulator .tabulator-row .tabulator-cell {
+    padding: 8px !important;
+    border-right: 1px solid #dee2e6 !important;
+}
+
+/* Action column styles */
+.tabulator .action-column {
+    width: 150px !important;
+    max-width: 150px !important;
+    min-width: 150px !important;
+}
+
+.tabulator-cell.action-column {
+    padding: 4px !important;
+    width: 150px !important;
+    max-width: 150px !important;
+    min-width: 150px !important;
+}
+
+.action-buttons {
+    display: flex !important;
+    gap: 4px !important;
+    justify-content: center !important;
+    align-items: center !important;
+    width: 100% !important;
+}
+
+.action-buttons button {
+    padding: 4px 8px !important;
+    border: none !important;
+    border-radius: 4px !important;
+    cursor: pointer !important;
+    font-size: 12px !important;
+    color: white !important;
+    min-width: 40px !important;
+}
+
+.action-buttons .edit-btn {
+    background-color: #4CAF50 !important;
+}
+
+.action-buttons .edit-btn:hover {
+    background-color: #45a049 !important;
+}
+
+.action-buttons .delete-btn {
+    background-color: #f44336 !important;
+}
+
+.action-buttons .delete-btn:hover {
+    background-color: #da190b !important;
+}
+
+/* Ensure action column stays visible */
+.tabulator .tabulator-frozen.action-column {
+    position: sticky !important;
+    right: 0 !important;
+    z-index: 10 !important;
+    border-left: 2px solid #dee2e6 !important;
+    background-color: #fff !important;
+}
+
+/* Make buttons more compact on smaller screens */
+@media (max-width: 768px) {
+    .action-buttons {
+        gap: 6px;
+        padding: 4px 6px;
+    }
+
+    .action-buttons button {
+        padding: 4px 8px;
+        font-size: 12px;
+        min-width: 60px;
+        height: 26px;
+    }
+}
+
+/* Edit/Delete Buttons */
+.edit-btn, .delete-btn {
+    padding: 6px 12px;
+    margin: 0 4px;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    font-size: 14px;
+    transition: background-color 0.3s;
+}
+
+.edit-btn {
+    background-color: #007bff;
+    color: white;
+}
+
+.edit-btn:hover {
+    background-color: #0056b3;
+}
+
+.delete-btn {
+    background-color: #dc3545;
+    color: white;
+}
+
+.delete-btn:hover {
+    background-color: #c82333;
+}
+
+/* Form Styles */
+.form-group {
+    margin-bottom: 1rem;
+}
+
+.form-group label {
+    display: block;
+    margin-bottom: 0.5rem;
+    color: #432;
+}
+
+.form-group input[type="text"],
+.form-group input[type="date"],
+.form-group textarea {
+    width: 100%;
+    padding: 0.5rem;
+    border: 1px solid #ddd;
+    border-radius: 5px;
+}
+
+.form-group textarea {
+    height: 100px;
+    resize: vertical;
+}
+
+/* Date input groups */
+.date-group {
+    margin-bottom: 1rem;
+}
+
+.date-input-group {
+    display: flex;
+    gap: 0.5rem;
+    align-items: center;
+}
+
+.date-input-group input[type="date"] {
+    flex: 1;
+}
+
+.clear-date {
+    background: #666;
+    color: white;
+    border: none;
+    padding: 0.3rem 0.8rem;
+    border-radius: 4px;
+    cursor: pointer;
+    transition: background-color 0.3s;
+}
+
+.clear-date:hover {
+    background: #888;
+}
+
+/* Toast Container */
+#toast-container {
+    position: fixed;
+    bottom: 20px;
+    right: 20px;
+    z-index: 1000;
+}
+
+.toast {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    min-width: 250px;
+    margin-bottom: 10px;
+    padding: 12px 20px;
+    border-radius: 4px;
+    box-shadow: 0 2px 5px rgba(0,0,0,0.2);
+    animation: slideIn 0.3s ease-out;
+    transition: opacity 0.3s ease-out;
+}
+
+.toast.success {
+    background-color: #4CAF50;
+    color: white;
+}
+
+.toast.error {
+    background-color: #f44336;
+    color: white;
+}
+
+.toast.info {
+    background-color: #2196F3;
+    color: white;
+}
+
+.toast-message {
+    margin-right: 10px;
+}
+
+.toast-close {
+    cursor: pointer;
+    padding: 0 5px;
+    font-weight: bold;
+}
+
+@keyframes slideIn {
+    from {
+        transform: translateX(100%);
+        opacity: 0;
+    }
+    to {
+        transform: translateX(0);
+        opacity: 1;
+    }
+}
+
+.toast.fade-out {
+    animation: fadeOut 0.5s ease-out forwards;
+}
+
+@keyframes fadeOut {
+    from {
+        transform: translateX(0);
+        opacity: 1;
+    }
+    to {
+        transform: translateX(100%);
+        opacity: 0;
+    }
+}
+
+/* Modified Cell Styles */
+.tabulator-cell.modified {
+    background-color: rgba(255, 243, 205, 0.5);
+    transition: background-color 0.3s ease;
+}
+
+/* Loading Overlay */
+.loading-overlay {
+    display: none;
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(255, 255, 255, 0.8);
+    z-index: 9999;
+    justify-content: center;
+    align-items: center;
+}
+
+.loading-spinner {
+    width: 50px;
+    height: 50px;
+    border: 5px solid #f3f3f3;
+    border-top: 5px solid #3498db;
+    border-radius: 50%;
+    animation: spin 1s linear infinite;
+}
+
+@keyframes spin {
+    0% { transform: rotate(0deg); }
+    100% { transform: rotate(360deg); }
+}
+
+/* Button States */
+.action-button {
+    position: relative;
+    overflow: hidden;
+}
+
+.action-button:disabled {
+    cursor: not-allowed;
+    opacity: 0.7;
+}
+
+.action-button .spinner {
+    display: none;
+    position: absolute;
+    left: 50%;
+    top: 50%;
+    transform: translate(-50%, -50%);
+    width: 16px;
+    height: 16px;
+    border: 2px solid rgba(255,255,255,0.3);
+    border-top-color: white;
+    border-radius: 50%;
+    animation: spin 1s linear infinite;
+}
+
+.action-button.loading .spinner {
+    display: block;
+}
+
+.action-button.loading span {
+    visibility: hidden;
+}
+
+/* Toast Notifications */
+.toast {
+    position: fixed;
+    bottom: 20px;
+    right: 20px;
+    padding: 15px 25px;
+    background: #333;
+    color: white;
+    border-radius: 4px;
+    z-index: 1000;
+}
+
+.toast.success {
+    background: #4CAF50;
+}
+
+.toast.error {
+    background: #f44336;
+}
+
+.toast.info {
+    background: #2196F3;
+}
+
+/* Toast Notification */
+.toast-container {
+    position: fixed;
+    top: 20px;
+    right: 20px;
+    z-index: 2000;
+}
+
+.toast {
+    background-color: #333;
+    color: white;
+    padding: 15px 25px;
+    border-radius: 4px;
+    margin-bottom: 10px;
+    min-width: 250px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    animation: slideIn 0.5s ease-out;
+    transition: all 0.3s ease;
+}
+
+.toast.success {
+    background-color: #4CAF50;
+    border-left: 5px solid #45a049;
+}
+
+.toast.error {
+    background-color: #f44336;
+    border-left: 5px solid #da190b;
+}
+
+.toast-message {
+    margin-right: 15px;
+    font-size: 14px;
+}
+
+.toast-close {
+    cursor: pointer;
+    font-size: 20px;
+    line-height: 1;
+    color: white;
+    opacity: 0.8;
+    transition: opacity 0.2s;
+}
+
+.toast-close:hover {
+    opacity: 1;
+}
+
+@keyframes slideIn {
+    from {
+        transform: translateX(100%);
+        opacity: 0;
+    }
+    to {
+        transform: translateX(0);
+        opacity: 1;
+    }
+}
+
+@keyframes fadeOut {
+    from {
+        transform: translateX(0);
+        opacity: 1;
+    }
+    to {
+        transform: translateX(100%);
+        opacity: 0;
+    }
+}
+
+.toast.fade-out {
+    animation: fadeOut 0.5s ease-out forwards;
+}
+
+.image-preview {
+    max-width: 100px;
+    max-height: 100px;
+    object-fit: cover;
+}
+
+.wrapper {
+    max-width: 90% !important; /* Increase from default */
+    margin: 0 auto;
+    padding: 0 4%;
+}
+
+.content-wrapper {
+    background: #fff;
+    border-radius: 8px;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+    overflow-x: auto;
+    padding: 20px;
+    margin: 0 auto;
+    width: 100%;
+}
+
+/* Override any max-width constraints from parent styles */
+.page-header.wrapper {
+    max-width: 95% !important;
+}
+
+@media (max-width: 768px) {
+    .wrapper, .admin-content, .page-header.wrapper {
+        max-width: 98% !important;
+        padding: 0 10px;
+    }
+}
+
+/* Admin Header Styles */
+.admin-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 1rem 2rem;
+    background-color: #f8f9fa;
+    border-bottom: 1px solid #dee2e6;
+}
+
+.admin-header h1 {
+    margin: 0;
+    color: #432;
+    font-size: 1.5rem;
+}
+
+.logout-btn {
+    background-color: #f44336;
+    color: white;
+    padding: 0.5rem 1rem;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    font-size: 0.875rem;
+    transition: background-color 0.3s;
+}
+
+.logout-btn:hover {
+    background-color: #d32f2f;
+}
+
+/* Dashboard Styles */
+.dashboard-container {
+    padding: 2rem;
+}
+
+.dashboard-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    gap: 2rem;
+    max-width: 1200px;
+    margin: 0 auto;
+}
+
+.dashboard-card {
+    background: white;
+    padding: 2rem;
+    border-radius: 8px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    text-decoration: none;
+    color: #432;
+    transition: transform 0.3s, box-shadow 0.3s;
+}
+
+.dashboard-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.15);
+}
+
+.dashboard-card h2 {
+    font-size: 1.5rem;
+    margin-bottom: 1rem;
+    color: #0bd;
+}
+
+.dashboard-card p {
+    color: #666;
+    line-height: 1.5;
+}
+
+@media (max-width: 768px) {
+    .dashboard-container {
+        padding: 1rem;
+    }
+    
+    .dashboard-grid {
+        grid-template-columns: 1fr;
+    }
+}

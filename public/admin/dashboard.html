@@ -1,0 +1,316 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>WCB Cafe - Admin Dashboard</title>
+    <meta name="description" content="WCB Cafe admin dashboard">
+    <link rel="icon" type="image/png" href="../images/favicon.png">
+    <link rel="stylesheet" href="https://unpkg.com/ress/dist/ress.min.css">
+    <link href="https://fonts.googleapis.com/css?family=Philosopher" rel="stylesheet">
+    <link href="../css/style.css" rel="stylesheet">
+    <link href="../css/admin.css" rel="stylesheet">
+    <style>
+        .dashboard-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 20px;
+            padding: 20px;
+        }
+
+        .dashboard-card {
+            background: white;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+            text-decoration: none;
+            color: inherit;
+            transition: transform 0.2s, box-shadow 0.2s;
+        }
+
+        .dashboard-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 4px 8px rgba(0,0,0,0.2);
+        }
+
+        .dashboard-card h2 {
+            margin: 0 0 10px 0;
+            color: #432;
+        }
+
+        .dashboard-card p {
+            margin: 0;
+            color: #666;
+        }
+
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 10px;
+            margin-top: 10px;
+        }
+
+        .stat-item {
+            background: #f8f9fa;
+            padding: 10px;
+            border-radius: 4px;
+            text-align: center;
+        }
+
+        .stat-number {
+            font-size: 24px;
+            font-weight: bold;
+            color: #0bd;
+        }
+
+        .stat-label {
+            font-size: 14px;
+            color: #666;
+        }
+
+        .nav-buttons {
+            display: flex;
+            gap: 10px;
+            margin: 20px 0;
+            flex-wrap: wrap;
+            justify-content: center;
+        }
+
+        .nav-button {
+            padding: 10px 20px;
+            background: #432;
+            color: #fff;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: background-color 0.3s;
+            text-decoration: none;
+            display: inline-block;
+            font-size: 1rem;
+            min-width: 120px;
+            text-align: center;
+        }
+
+        .nav-button:hover {
+            background: #0bd;
+            color: #fff;
+        }
+
+        .logout-button {
+            background: #d33;
+        }
+
+        .logout-button:hover {
+            background: #f44;
+        }
+
+        .logs-content {
+            background: #f8f9fa;
+            padding: 15px;
+            border-radius: 5px;
+            font-family: monospace;
+            white-space: pre-wrap;
+            max-height: 500px;
+            overflow-y: auto;
+            margin-top: 15px;
+        }
+
+        .maintenance-results {
+            margin-top: 15px;
+        }
+
+        .maintenance-results ul {
+            list-style: none;
+            padding: 0;
+            margin: 10px 0;
+        }
+
+        .maintenance-results li {
+            padding: 8px 0;
+            border-bottom: 1px solid #eee;
+            color: #666;
+        }
+
+        .maintenance-results li:last-child {
+            border-bottom: none;
+        }
+
+        #msgStats {
+            display: none;
+            margin-top: 20px;
+        }
+
+        @media (max-width: 768px) {
+            .nav-buttons {
+                flex-direction: column;
+                gap: 8px;
+            }
+            
+            .nav-button {
+                width: 100%;
+            }
+        }
+    </style>
+</head>
+
+<body class="admin">
+    <div class="admin-header">
+        <h1>Admin Dashboard</h1>
+        <div class="nav-buttons">
+            <a href="/admin/contactManager.html" class="nav-button">Check Msg</a>
+            <a href="/customerOrder" class="nav-button">Customer Order</a>
+            <a href="/admin/menuManager" class="nav-button">Menu Manager</a>
+            <button id="maintenanceBtn" class="nav-button">Maintenance</button>
+            <button id="viewLogsBtn" class="nav-button">View Logs</button>
+            <button type="button" class="nav-button logout-button" onclick="handleLogout()">Logout</button>
+        </div>
+    </div>
+
+    <div class="dashboard-container">
+        <div class="dashboard-grid">
+            <a href="/admin/menuManager" class="dashboard-card">
+                <h2>Menu Manager</h2>
+                <p>Manage menu items, prices, and availability</p>
+                <div class="stats-grid">
+                    <div class="stat-item">
+                        <div class="stat-label">總菜單項目</div>
+                        <div id="total-items" class="stat-value">-</div>
+                    </div>
+                    <div class="stat-item">
+                        <div class="stat-label">目前供應項目</div>
+                        <div id="active-items" class="stat-value">-</div>
+                    </div>
+                </div>
+                <div id="last-updated" class="last-updated">Loading...</div>
+            </a>
+            <!-- Add more dashboard cards as needed -->
+        </div>
+    </div>
+
+    <div id="msgStats" class="dashboard-card">
+        <h2>Message Statistics</h2>
+        <div id="msgStatsContent" class="stats-grid">
+            <!-- Message stats will be loaded here -->
+        </div>
+    </div>
+
+    <script src="../js/admin/auth.js"></script>
+    <script>
+        // Function to update menu stats
+        async function updateMenuStats() {
+            try {
+                const card = document.querySelector('.dashboard-card');
+                card.classList.add('loading');
+                
+                const response = await fetch('/api/menu-items/stats');
+                if (!response.ok) {
+                    throw new Error(`HTTP error! status: ${response.status}`);
+                }
+                
+                const stats = await response.json();
+                
+                // Update stats display
+                document.getElementById('total-items').textContent = stats.totalItems;
+                document.getElementById('active-items').textContent = stats.activeItems;
+                document.getElementById('last-updated').textContent = 
+                    `最後更新: ${new Date().toLocaleTimeString()}`;
+                
+            } catch (error) {
+                console.error('Error updating menu stats:', error);
+                document.getElementById('total-items').textContent = '-';
+                document.getElementById('active-items').textContent = '-';
+                document.getElementById('last-updated').textContent = '無法載入統計資料';
+            } finally {
+                const card = document.querySelector('.dashboard-card');
+                card.classList.remove('loading');
+            }
+        }
+
+        async function checkMessages() {
+            try {
+                const response = await fetch('/api/messages/stats');
+                const data = await response.json();
+                
+                const msgStats = document.getElementById('msgStats');
+                const msgStatsContent = document.getElementById('msgStatsContent');
+                
+                msgStatsContent.innerHTML = `
+                    <div class="stat-item">
+                        <div class="stat-value">${data.totalMessages || 0}</div>
+                        <div class="stat-label">Total Messages</div>
+                    </div>
+                    <div class="stat-item">
+                        <div class="stat-value">${data.newMessages || 0}</div>
+                        <div class="stat-label">New Messages</div>
+                    </div>
+                `;
+                msgStats.style.display = 'block';
+            } catch (error) {
+                console.error('Error fetching message stats:', error);
+            }
+        }
+
+        async function viewLogs() {
+            try {
+                const response = await fetch('/api/logs');
+                const data = await response.json();
+                
+                const content = document.querySelector('.dashboard-container');
+                content.innerHTML = `
+                    <div class="dashboard-card">
+                        <h2>System Logs</h2>
+                        <pre class="logs-content">${data.logs || 'No logs available'}</pre>
+                    </div>
+                `;
+            } catch (error) {
+                console.error('Error fetching logs:', error);
+                alert('Failed to fetch logs');
+            }
+        }
+
+        async function runMaintenance() {
+            try {
+                const response = await fetch('/api/maintenance', {
+                    method: 'POST'
+                });
+                const data = await response.json();
+                
+                const content = document.querySelector('.dashboard-container');
+                content.innerHTML = `
+                    <div class="dashboard-card">
+                        <h2>Maintenance Results</h2>
+                        <div class="maintenance-results">
+                            <p>${data.message || 'Maintenance completed'}</p>
+                            <ul>
+                                ${data.tasks ? data.tasks.map(task => `<li>${task}</li>`).join('') : ''}
+                            </ul>
+                        </div>
+                    </div>
+                `;
+            } catch (error) {
+                console.error('Error running maintenance:', error);
+                alert('Failed to run maintenance');
+            }
+        }
+
+        // Initialize when document is ready
+        document.addEventListener('DOMContentLoaded', () => {
+            updateMenuStats();
+            
+            // Add click handlers for all buttons
+            const viewLogsBtn = document.getElementById('viewLogsBtn');
+            const maintenanceBtn = document.getElementById('maintenanceBtn');
+
+            if (viewLogsBtn) {
+                viewLogsBtn.addEventListener('click', viewLogs);
+            }
+            if (maintenanceBtn) {
+                maintenanceBtn.addEventListener('click', runMaintenance);
+            }
+        });
+
+        // Update stats every minute
+        setInterval(updateMenuStats, 60000);
+    </script>
+</body>
+</html>
