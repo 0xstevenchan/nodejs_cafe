@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html lang="zh-Hant-TW">
+    <head>
+        <meta charset="utf-8">
+        <title><%= title %></title>
+        <meta name="description" content="提供綜合咖啡與健康有機食物的咖啡店">
+        <link rel="icon" type="image/png" href="/images/favicon.png">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <!-- CSS -->
+        <link rel="stylesheet" href="https://unpkg.com/ress/dist/ress.min.css">
+        <link href="https://fonts.googleapis.com/css?family=Philosopher" rel="stylesheet">
+        <link href="/css/style.css" rel="stylesheet">
+        <style>
+            .message-container {
+                background: rgba(255, 255, 255, 0.9);
+                padding: 2rem;
+                border-radius: 10px;
+                box-shadow: 0 0 20px rgba(0, 0, 0, 0.1);
+                text-align: center;
+                max-width: 600px;
+                margin: 2rem auto;
+            }
+
+            .success {
+                color: #27ae60;
+            }
+
+            .error {
+                color: #e74c3c;
+            }
+
+            .message {
+                font-size: 1.2rem;
+                margin: 1.5rem 0;
+                line-height: 1.6;
+            }
+
+            .back-button {
+                display: inline-block;
+                background: #0bd;
+                color: #fff;
+                padding: 1rem 2rem;
+                border-radius: 5px;
+                text-decoration: none;
+                margin-top: 1rem;
+                transition: background 0.3s;
+            }
+
+            .back-button:hover {
+                background: #0a9;
+            }
+
+            @media (max-width: 768px) {
+                .message-container {
+                    margin: 1rem;
+                    padding: 1.5rem;
+                }
+            }
+        </style>
+    </head>
+
+    <body>
+        <div id="contact" class="big-bg">
+            <header class="page-header wrapper">
+                <h1><a href="/"><img class="logo" src="/images/logo.svg" alt="WCB Cafe 首頁"></a></h1>
+                <nav>
+                    <ul class="main-nav">
+                        <li><a href="/menu.html">Menu</a></li>
+                        <li><a href="/aboutUs.html">About Us</a></li>
+                        <li><a href="/contact">Contact</a></li>
+                    </ul>
+                </nav>
+            </header>
+
+            <div class="wrapper">
+                <div class="message-container">
+                    <h2 class="page-title"><%= title %></h2>
+                    <p class="message <%= status %>"><%= message %></p>
+                    <a href="/contact" class="back-button">返回聯絡表單</a>
+                </div>
+            </div>
+        </div>
+
+        <footer>
+            <div class="wrapper">
+                <p><small>&copy; 2019 Manabox</small></p>
+            </div>
+        </footer>
+    </body>
+</html>

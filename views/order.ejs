@@ -1,0 +1,124 @@
+<!DOCTYPE html>
+<html lang="zh-Hant-TW">
+    <head>
+        <meta charset="utf-8">
+        <title>WCB Cafe - MENU</title>
+        <meta name="description" content="提供綜合咖啡與健康有機食物的咖啡店">
+        <link rel="icon" type="image/png" href="images/favicon.png">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <!-- CSS -->
+        <link rel="stylesheet" href="https://unpkg.com/ress/dist/ress.min.css">
+        <link href="https://fonts.googleapis.com/css?family=Philosopher" rel="stylesheet">
+        <link href="css/style.css" rel="stylesheet">
+        <link href="css/menu.css" rel="stylesheet">
+        <link href="css/order.css" rel="stylesheet">
+        <style>
+            .submit-btn {
+                background-color: #0bd;
+                color: white;
+                border: none;
+                padding: 8px 20px;
+                border-radius: 4px;
+                font-size: 0.9em;
+                cursor: pointer;
+                transition: background-color 0.2s;
+            }
+            .submit-btn:hover {
+                background-color: #09a7c4;
+            }
+        </style>
+    </head>
+
+    <body>
+        <audio id="bgMusic" loop preload="auto" autoplay>
+            <source src="music/background.mp3" type="audio/mpeg">
+        </audio>
+
+        <div id="menu" class="big-bg">
+            <header class="page-header wrapper">
+                <h1><a href="index.html"><img class="logo" src="images/logo.svg" alt="WCB Cafe 首頁"></a></h1>
+                <nav>
+                    <ul class="main-nav">
+                        <li><a href="order">Menu</a></li>
+                        <li><a href="aboutUs.html">About Us</a></li>
+                        <li><a href="contact">Contact</a></li>
+                    </ul>
+                </nav>
+                <div class="music-player">
+                </div>
+            </header>
+
+            <div class="menu-content wrapper">
+                <h2 class="page-title">Menu</h2>
+                <p>
+                    WCB CAFE提供有益健康的自然食物，主要的特色是菜單選用了無人工添加物的食材。
+                    請用好喝的綜合咖啡與健康的有機食物由體內開始療癒身心。
+                </p>
+            </div><!-- /.menu-content -->
+        </div><!-- /#menu -->
+        
+        <div id="menuContainer" class="menu-items-container wrapper">
+            <div class="menu-grid">
+                <form action="/order/table/<%= table %>"  method="post">
+                    <% for (let [k, v] of Object.entries(catelogue)) { %>
+                        <div class="menu-section">
+                            <% if (v.length > 0) { %> 
+                                <h2 class="section-title"><%= k %></h2>
+                                <div class="menu-items-grid">
+                                    <% for(let i=0; i<v.length; i++) { %>
+                                        <div class="menu-item">
+                                            <div class="menu-item-image">
+                                                <img src="<%= v[i].foodImage %>" alt="七彩迷你茄茄芝士波凍凍">
+                                            </div>
+                                            <div class="menu-item-content">
+                                                <% if(v[i].startDate && v[i].endDate) { %>
+                                                    <p class="menu-item-dates">供應期間: <%= v[i].startDate.toLocaleDateString() %> - <%= v[i].endDate.toLocaleDateString() %></p>
+                                                <% } %>
+                                                <h3 class="menu-item-title"><%= v[i].displayTitle %></h3>
+                                                <p class="menu-item-description"><%= v[i].smallDescription %></p>
+                                                <% if (v[i].ingredients.length > 0) { %> 
+                                                    <p class="menu-item-ingredients">食材: <%= v[i].ingredients.join(', ') %></p>
+                                                <% } %>
+                                                <div class="order-controls">
+                                                    <div class="quantity-control">
+                                                        <label for="<%= v[i].displayTitle %>" class="quantity-label">數量</label>
+                                                        <div class="quantity-input-group">
+                                                            <button type="button" class="quantity-btn minus-btn" onclick="decrementQuantity('<%= v[i].displayTitle %>')">-</button>
+                                                            <input 
+                                                                type="number" 
+                                                                id="<%= v[i].displayTitle %>" 
+                                                                name="<%= v[i].displayTitle %>" 
+                                                                min="0" 
+                                                                max="99" 
+                                                                value="0"
+                                                                class="quantity-input"
+                                                                onchange="validateQuantity(this)"
+                                                            >
+                                                            <button type="button" class="quantity-btn plus-btn" onclick="incrementQuantity('<%= v[i].displayTitle %>')">+</button>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    <% } %>
+                                </div>
+                            <% } %>
+                        </div>
+                    <% } %>
+                    <div class="order-submit-section">
+                        <button type="submit" class="submit-btn">提交訂單</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+
+        <footer>
+            <div class="wrapper">
+                <p><small>&copy; 2025 Manabox</small></p>
+            </div>
+        </footer>
+        <script src="js/music-player.js"></script>
+        <script src="js/order-controls.js"></script>
+    </body>
+</html>

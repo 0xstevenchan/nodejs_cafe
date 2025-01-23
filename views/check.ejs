@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="zh-Hant-TW">
+    <head>
+        <meta charset="utf-8">
+        <title>WCB Cafe - CONTACT</title>
+        <meta name="description" content="提供綜合咖啡與健康有機食物的咖啡店">
+        <link rel="icon" type="image/png" href="images/favicon.png">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <!-- CSS -->
+        <link rel="stylesheet" href="https://unpkg.com/ress/dist/ress.min.css">
+        <link href="https://fonts.googleapis.com/css?family=Philosopher" rel="stylesheet">
+        <link href="css/style_old.css" rel="stylesheet">
+    </head>
+    <body>
+        <div id="contact" class="big-bg">
+            <div class="wrapper">
+                <h2 class="page-title">客戶信息</h2>
+                <table style="width: 100%; border-collapse: collapse; background-color: whitesmoke;">
+                    <thead>
+                        <tr>
+                            <th style="border: 1px solid #ddd; padding: 8px; text-align: left;">Name</th>
+                            <th style="border: 1px solid #ddd; padding: 8px; text-align: left;">Email</th>
+                            <th style="border: 1px solid #ddd; padding: 8px; text-align: left;">Message</th>
+                            <th style="border: 1px solid #ddd; padding: 8px; text-align: left;">Date</th>
+                            <th style="border: 1px solid #ddd; padding: 8px; text-align: left;">Action</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <% contact.forEach(function(item) { %>
+                            <tr>
+                                <td style="border: 1px solid #ddd; padding: 8px;"><%= item.name %></td>
+                                <td style="border: 1px solid #ddd; padding: 8px;"><%= item.email %></td>
+                                <td style="border: 1px solid #ddd; padding: 8px;"><%= item.message %></td>
+                                <td style="border: 1px solid #ddd; padding: 8px;"><%= item.createdAt.toLocaleString() %></td>
+                                <td style="border: 1px solid #ddd; padding: 8px;">
+                                    <form action="/check" method="post">
+                                        <input type="hidden" id="contactId_<%= item._id %>" name="contactId" value="<%= item._id %>">
+                                        <input type="hidden" id="progress_<%= item._id %>" name="progress" value="done">
+                                        <input type="submit" class="button" value="完成" <%= item.progress === 'done' ? 'disabled' : '' %>>
+                                    </form>
+                                </td>
+                            </tr>
+                        <% }); %>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+        <script>
+            window.setTimeout( function() {
+                window.location.reload();
+            }, 10000);
+            function playAudio() {
+                const audio = document.createElement("audio");
+                audio.src = "music/message-notification-sound.mp3";
+                audio.loop = true;
+                audio.play();
+            };
+            if (0 < delta < 30000) {
+                playAudio()
+            }
+        </script>
+    </body>
+</html>

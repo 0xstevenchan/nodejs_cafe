@@ -1,0 +1,203 @@
+<!DOCTYPE html>
+<html lang="zh-Hant-TW">
+    <head>
+        <meta charset="utf-8">
+        <title>WCB Cafe - 讚賞與建議</title>
+        <meta name="description" content="提供綜合咖啡與健康有機食物的咖啡店">
+        <link rel="icon" type="image/png" href="/images/favicon.png">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+    <!-- CSS -->
+        <link rel="stylesheet" href="https://unpkg.com/ress/dist/ress.min.css">
+        <link href="https://fonts.googleapis.com/css?family=Philosopher" rel="stylesheet">
+        <link href="/css/style.css" rel="stylesheet">
+        <link href="/css/dialogue.css" rel="stylesheet">
+        <style>
+            #popup {
+                display: none;
+                position: fixed;
+                top: 0;
+                left: 0;
+                width: 100%;
+                height: 100%;
+                background: rgba(0, 0, 0, 0.5);
+                z-index: 9999;
+            }
+
+            #popup.show {
+                display: flex;
+                justify-content: center;
+                align-items: center;
+            }
+
+            .popup-box {
+                background: white;
+                padding: 30px;
+                border-radius: 10px;
+                text-align: center;
+                max-width: 400px;
+                width: 90%;
+            }
+
+            .popup-icon {
+                font-size: 48px;
+                margin-bottom: 20px;
+            }
+
+            .popup-message {
+                font-size: 18px;
+                margin-bottom: 20px;
+            }
+
+            .popup-button {
+                background: #0bd;
+                color: white;
+                border: none;
+                padding: 10px 30px;
+                border-radius: 5px;
+                font-size: 16px;
+                cursor: pointer;
+            }
+
+            .popup-button:hover {
+                background: #0090aa;
+            }
+        </style>
+    </head>
+
+    <body>
+        <div id="contact" class="big-bg">
+            <header class="page-header wrapper">
+                <h1><a href="/"><img class="logo" src="/images/logo.svg" alt="WCB Cafe 首頁"></a></h1>
+                <nav>
+                    <ul class="main-nav">
+                        <li><a href="/menu">Menu</a></li>
+                        <li><a href="/aboutUs">About Us</a></li>
+                        <li><a href="/contact">Contact</a></li>
+                    </ul>
+                </nav>
+            </header>
+
+            <div class="wrapper">
+                <h2 class="page-title">讚賞與建議</h2>
+                <% if (typeof query !== 'undefined' && query.success === 'true') { %>
+                    <div class="success-message">
+                        感謝您的來信！我們會盡快回覆您。
+                    </div>
+                <% } %>
+                <form id="dialogueForm" action="/handleDialogue" method="post" class="dialogue-form">
+                    <div class="form-container">
+                        <div class="form-columns">
+                            <div class="form-column">
+                                <div class="form-group">
+                                    <label for="name">姓名</label>
+                                    <input type="text" id="name" name="name" required>
+                                </div>
+
+                                <div class="form-group">
+                                    <label for="email">電子郵件</label>
+                                    <input type="email" id="email" name="email" required>
+                                    <span id="emailError" style="color: red; display: none;">請輸入有效的電子郵件地址</span>
+                                </div>
+
+                                <div class="form-group">
+                                    <label for="subject">主旨</label>
+                                    <input type="text" id="subject" name="subject" required>
+                                </div>
+                            </div>
+
+                            <div class="form-column">
+                                <div class="form-group message-group">
+                                    <label for="message">訊息內容</label>
+                                    <textarea id="message" name="message" required></textarea>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <div class="button-container">
+                            <button type="submit" class="button">送出</button>
+                        </div>
+                    </div>
+                </form>
+            </div><!-- /.wrapper -->
+        </div><!-- /#contact -->
+
+        <!-- Simple Popup -->
+        <div id="popup">
+            <div class="popup-box">
+                <div class="popup-icon">✓</div>
+                <div class="popup-message"></div>
+                <button class="popup-button" onclick="hidePopup()">確定</button>
+            </div>
+        </div>
+
+        <footer>
+            <div class="wrapper">
+                <p><small>&copy; 2024 WCB Cafe</small></p>
+            </div>
+        </footer>           
+        <script>
+            document.addEventListener('DOMContentLoaded', function() {
+                const form = document.getElementById('dialogueForm');
+                
+                form.addEventListener('submit', async function(event) {
+                    event.preventDefault();
+                    
+                    const formData = new FormData(form);
+                    const data = {};
+                    formData.forEach((value, key) => data[key] = value);
+                    
+                    try {
+                        const response = await fetch('/handleDialogue', {
+                            method: 'POST',
+                            headers: {
+                                'Content-Type': 'application/json',
+                            },
+                            body: JSON.stringify(data)
+                        });
+                        
+                        const result = await response.json();
+                        showPopup(result.message, result.success);
+                        
+                        if (result.success) {
+                            form.reset();
+                        }
+                    } catch (error) {
+                        console.error('Error:', error);
+                        showPopup('發送訊息時發生錯誤，請稍後再試。', false);
+                    }
+                });
+            });
+
+            function showPopup(message, isSuccess = true) {
+                const popup = document.getElementById('popup');
+                const messageEl = popup.querySelector('.popup-message');
+                const iconEl = popup.querySelector('.popup-icon');
+                
+                messageEl.textContent = message;
+                iconEl.textContent = isSuccess ? '✓' : '✗';
+                iconEl.style.color = isSuccess ? '#0bd' : '#dc3545';
+                
+                popup.classList.add('show');
+            }
+
+            function hidePopup() {
+                const popup = document.getElementById('popup');
+                popup.classList.remove('show');
+            }
+
+            // Close on click outside
+            document.getElementById('popup').addEventListener('click', function(event) {
+                if (event.target === this) {
+                    hidePopup();
+                }
+            });
+
+            // Close on Escape key
+            document.addEventListener('keydown', function(event) {
+                if (event.key === 'Escape' && document.getElementById('popup').classList.contains('show')) {
+                    hidePopup();
+                }
+            });
+        </script>
+    </body>
+</html>

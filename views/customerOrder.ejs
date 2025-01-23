@@ -1,0 +1,142 @@
+<!DOCTYPE html>
+<html lang="zh-Hant-TW">
+    <head>
+        <meta charset="utf-8">
+        <meta name="description" content="提供綜合咖啡與健康有機食物的咖啡店">
+        <link rel="icon" type="image/png" href="images/favicon.png">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <link rel="stylesheet" href="https://unpkg.com/ress/dist/ress.min.css">
+        <link href="https://fonts.googleapis.com/css?family=Philosopher" rel="stylesheet">
+        <link href="/css/order.css" rel="stylesheet">
+        <title>Customer Orders</title>
+        <style>
+            body {
+                font-family: Arial, sans-serif;
+                padding: 20px;
+                background-color: #f5f5f5;
+            }
+            .table-container {
+                background-color: white;
+                border-radius: 8px;
+                box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+                margin-bottom: 20px;
+                padding: 20px;
+            }
+            .table-header {
+                display: flex;
+                justify-content: space-between;
+                align-items: center;
+                margin-bottom: 15px;
+            }
+            .table-number {
+                color: #666;
+                font-size: 1.2em;
+            }
+            .paid-form {
+                margin: 0;
+            }
+            .paid-button {
+                background-color: #0bd;
+                color: white;
+                border: none;
+                padding: 8px 20px;
+                border-radius: 4px;
+                font-size: 0.9em;
+                cursor: pointer;
+                transition: background-color 0.2s;
+            }
+            .paid-button:hover {
+                background-color: #09a7c4;
+            }
+            .orders-table-wrapper {
+                overflow-x: auto;
+            }
+            .orders-table {
+                border-collapse: collapse;
+                width: 100%;
+            }
+            .orders-table th, .orders-table td {
+                border: 1px solid #ddd;
+                padding: 8px;
+                text-align: left;
+            }
+            .orders-table th {
+                background-color: #f0f0f0;
+            }
+            .item-name {
+                font-weight: bold;
+            }
+            .item-quantity {
+                font-size: 0.9em;
+                color: #666;
+            }
+            .order-time {
+                color: #888;
+                font-size: 0.9em;
+            }
+            .order-status {
+                padding: 5px 10px;
+                border-radius: 4px;
+                font-weight: bold;
+            }
+            .status.pending {
+                background-color: #fff3cd;
+                color: #856404;
+            }
+            .empty-container {
+                text-align: center;
+                padding: 20px;
+            }
+            .no-orders {
+                font-size: 1.2em;
+                color: #666;
+            }
+        </style>
+    </head>
+    <body>
+        <h1>Customer Orders</h1>   
+        <div class="orders-container">
+            <% if (groupedOrders && groupedOrders.length > 0) { %>
+                <% groupedOrders.forEach(tableGroup => { %>
+                    <div class="table-container">
+                        <div class="table-header">
+                            <h2 class="table-number">Table <%= tableGroup.table %></h2>
+                            <form action="/customerOrder/markPaid" method="POST" class="paid-form">
+                                <input type="hidden" name="table" value="<%= tableGroup.table %>">
+                                <button type="submit" class="paid-button">Paid</button>
+                            </form>
+                        </div>
+                        <div class="orders-table-wrapper">
+                            <table class="orders-table">
+                                <thead>
+                                    <tr>
+                                        <th>Order</th>
+                                        <th>Quantity</th>
+                                        <th>Time</th>
+                                        <th>Status</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <% tableGroup.orderItems.forEach(item => { %>
+                                        <tr class="order-row">
+                                            <td class="item-name"><%= item.name %></td>
+                                            <td class="item-quantity">x <%= item.quantity %></td>
+                                            <td class="order-time"><%= new Date(item.time).toLocaleString() %></td>
+                                            <td class="order-status">
+                                                <span class="status <%= item.status %>"><%= item.status %></span>
+                                            </td>
+                                        </tr>
+                                    <% }); %>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                <% }); %>
+            <% } else { %>
+                <div class="table-container empty-container">
+                    <p class="no-orders">No pending orders</p>
+                </div>
+            <% } %>
+        </div>
+    </body>
+</html>

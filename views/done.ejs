@@ -1,0 +1,157 @@
+<!DOCTYPE html>
+<html lang="zh-Hant-TW">
+    <head>
+        <meta charset="utf-8">
+        <title>WCB Cafe - Completed Contacts</title>
+        <meta name="description" content="Contact Management System">
+        <link rel="icon" type="image/png" href="/images/favicon.png">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <!-- CSS -->
+        <link rel="stylesheet" href="https://unpkg.com/ress/dist/ress.min.css">
+        <link href="https://fonts.googleapis.com/css?family=Philosopher" rel="stylesheet">
+        <link href="/css/style.css" rel="stylesheet">
+        <link href="/css/admin.css" rel="stylesheet">
+        <script src="/js/admin/auth.js"></script>
+        <style>
+            .wrapper {
+                max-width: 1100px;
+                margin: 0 auto;
+                padding: 0 4%;
+            }
+
+            .page-title {
+                font-size: 5rem;
+                font-family: "Philosopher", serif;
+                text-transform: uppercase;
+                font-weight: normal;
+                text-align: center;
+                color: #433323;
+                margin-bottom: 2rem;
+            }
+
+            .big-bg {
+                background-size: cover;
+                background-position: center top;
+                background-repeat: no-repeat;
+                min-height: 100vh;
+                background-image: url(/images/contact-bg.jpg);
+                padding-top: 2rem;
+            }
+
+            .contact-table {
+                width: 100%;
+                border-collapse: collapse;
+                background-color: rgba(255, 255, 255, 0.95);
+                margin-top: 2rem;
+                box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+            }
+
+            .contact-table th,
+            .contact-table td {
+                border: 1px solid #ddd;
+                padding: 12px;
+                text-align: left;
+            }
+
+            .contact-table th {
+                background-color: #433323;
+                color: white;
+            }
+
+            .contact-table tr:hover {
+                background-color: rgba(255, 255, 255, 0.98);
+            }
+
+            .pagination {
+                margin-top: 2rem;
+                text-align: center;
+                background-color: rgba(255, 255, 255, 0.95);
+                padding: 1rem;
+                border-radius: 4px;
+                box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+            }
+
+            .pagination a {
+                display: inline-block;
+                padding: 8px 16px;
+                margin: 0 4px;
+                background-color: #0bd;
+                color: white;
+                text-decoration: none;
+                border-radius: 4px;
+                transition: background-color 0.3s;
+            }
+
+            .pagination a:hover {
+                background-color: #0a9;
+            }
+
+            .pagination span {
+                display: inline-block;
+                padding: 8px 16px;
+                margin: 0 4px;
+                color: #433323;
+            }
+
+            @media (max-width: 768px) {
+                .page-title {
+                    font-size: 2.5rem;
+                }
+            }
+        </style>
+    </head>
+    <body>
+        <div id="contact" class="big-bg">
+            <header class="page-header wrapper">
+                <h1><a href="/admin/"><img class="logo" src="/images/logo.svg" alt="WCB Cafe Admin"></a></h1>
+                <nav>
+                    <ul class="main-nav">
+                        <li><a href="/admin/">Dashboard</a></li>
+                        <li><a href="/admin/menuManager.html">Menu Manager</a></li>
+                        <li><a href="/contact/manager">Contact Manager</a></li>
+                        <li><a href="/">Logout</a></li>
+                    </ul>
+                </nav>
+            </header>
+
+            <div class="wrapper">
+                <h2 class="page-title">已完成聯絡事項</h2>
+                <table class="contact-table">
+                    <thead>
+                        <tr>
+                            <th>姓名</th>
+                            <th>電子郵件</th>
+                            <th>訊息內容</th>
+                            <th>完成日期</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <% contact.forEach(function(item) { %>
+                            <tr>
+                                <td><%= item.name %></td>
+                                <td><%= item.email %></td>
+                                <td><%= item.message %></td>
+                                <td><%= item.date.toLocaleString('zh-TW', { 
+                                    year: 'numeric', 
+                                    month: '2-digit', 
+                                    day: '2-digit',
+                                    hour: '2-digit',
+                                    minute: '2-digit'
+                                }) %></td>
+                            </tr>
+                        <% }); %>
+                    </tbody>
+                </table>
+                <div class="pagination">
+                    <% if (previousPage > 0) { %>
+                        <a href="/contact/done?page=<%= previousPage %>">上一頁</a>
+                    <% } %>
+                    <span>第 <%= currentPage %> 頁，共 <%= maxPages %> 頁</span>
+                    <% if (currentPage < maxPages) { %>
+                        <a href="/contact/done?page=<%= nextPage %>">下一頁</a>
+                    <% } %>
+                </div>
+            </div>
+        </div>
+    </body>
+</html>

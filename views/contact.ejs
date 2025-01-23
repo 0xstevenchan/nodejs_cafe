@@ -1,0 +1,150 @@
+<!DOCTYPE html>
+<html lang="zh-Hant-TW">
+    <head>
+        <meta charset="utf-8">
+        <title>WCB Cafe - CONTACT</title>
+        <meta name="description" content="提供綜合咖啡與健康有機食物的咖啡店">
+        <link rel="icon" type="image/png" href="/images/favicon.png">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+    <!-- CSS -->
+        <link rel="stylesheet" href="https://unpkg.com/ress/dist/ress.min.css">
+        <link href="https://fonts.googleapis.com/css?family=Philosopher" rel="stylesheet">
+        <link href="/css/style.css" rel="stylesheet">
+    </head>
+
+    <body>
+        <audio id="bgMusic" autoplay loop>
+            <source src="/music/background.mp3" type="audio/mp3">
+            Your browser does not support the audio element.
+        </audio>
+        <div id="contact" class="big-bg">
+            <header class="page-header wrapper">
+                <h1><a href="/"><img class="logo" src="/images/logo.svg" alt="WCB Cafe 首頁"></a></h1>
+                <nav>
+                    <ul class="main-nav">
+                        <li><a href="/menu">Menu</a></li>
+                        <li><a href="/aboutUs">About Us</a></li>
+                        <li><a href="/contact">Contact</a></li>
+                    </ul>
+                </nav>
+            </header>
+
+            <div class="wrapper">
+                <h2 class="page-title">Contact</h2>
+                <% if (typeof query !== 'undefined' && query.success === 'true') { %>
+                    <div id="successMessage" class="success-message" style="background-color: #dff0d8; color: #3c763d; padding: 15px; margin-bottom: 20px; border: 1px solid #d6e9c6; border-radius: 4px; text-align: center;">
+                        <h3 style="margin: 0 0 10px 0; font-size: 1.2em;">感謝您的來信！</h3>
+                        <p style="margin: 0;">我們已收到您的訊息，會盡快回覆您。</p>
+                        <p style="margin: 5px 0 0 0; font-size: 0.9em;">您的訊息已成功送出，請留意您的電子信箱。</p>
+                    </div>
+                <% } %>
+                <% if (typeof error !== 'undefined') { %>
+                    <div class="error-message" style="background-color: #f2dede; color: #a94442; padding: 15px; margin-bottom: 20px; border: 1px solid #ebccd1; border-radius: 4px; text-align: center;">
+                        <h3 style="margin: 0 0 10px 0; font-size: 1.2em;">發生錯誤</h3>
+                        <p style="margin: 0;"><%= error.message %></p>
+                    </div>
+                <% } %>
+                <form action="/handleContact" method="post" class="contact-form" onsubmit="return validateForm()">
+                    <div class="form-group">
+                        <label for="name">姓名</label>
+                        <input type="text" id="name" name="name" required>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="email">電子郵件</label>
+                        <input type="email" id="email" name="email" required>
+                        <span id="emailError" style="color: red; display: none;">請輸入有效的電子郵件地址</span>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="message">詢問內容</label>
+                        <textarea id="message" name="message" required></textarea>
+                    </div>
+
+                    <input type="hidden" id="progress" name="progress" value="inProgress">
+                    
+                    <button type="submit" class="button">送出</button>
+                </form>
+            </div><!-- /.wrapper -->
+        </div><!-- /#contact -->
+
+        <footer>
+            <div class="wrapper">
+                <p><small>&copy; 2024 WCB Cafe</small></p>
+            </div>
+        </footer>           
+        <style>
+            .success-message {
+                transition: opacity 0.5s ease-in-out;
+            }
+            .success-message.fade-out {
+                opacity: 0;
+            }
+        </style>
+        <script>
+            function validateForm() {
+                const email = document.getElementById('email').value;
+                const emailError = document.getElementById('emailError');
+                
+                // Simple email validation pattern
+                const emailPattern = /^[a-zA-Z0-9._-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,6}$/;
+                
+                if (!emailPattern.test(email)) {
+                    emailError.style.display = 'block';
+                    return false;
+                }
+                
+                emailError.style.display = 'none';
+                
+                // Show loading message
+                const form = document.querySelector('.contact-form');
+                const submitButton = form.querySelector('button[type="submit"]');
+                submitButton.disabled = true;
+                submitButton.innerHTML = '送出中...';
+                
+                return true;
+            }
+
+            // Clear form if submission was successful
+            window.onload = function() {
+                if (window.location.search.includes('success=true')) {
+                    document.querySelector('.contact-form').reset();
+                    // Scroll to success message
+                    const successMessage = document.querySelector('.success-message');
+                    if (successMessage) {
+                        successMessage.scrollIntoView({ behavior: 'smooth', block: 'center' });
+                        
+                        // Fade out and remove after 2 seconds
+                        setTimeout(() => {
+                            successMessage.classList.add('fade-out');
+                            setTimeout(() => {
+                                successMessage.style.display = 'none';
+                            }, 500); // Wait for fade animation to complete
+                        }, 2000);
+                    }
+                }
+            }
+        </script>
+        <script>
+            // Background music controls
+            const bgMusic = document.getElementById('bgMusic');
+            bgMusic.volume = 0.3; // Set initial volume to 30%
+
+            // Play music when user interacts with the page
+            document.addEventListener('click', () => {
+                bgMusic.play().catch(error => {
+                    console.log('Error playing background music:', error);
+                });
+            }, { once: true });
+
+            // Pause music when page is hidden, resume when visible
+            document.addEventListener('visibilitychange', () => {
+                if (document.hidden) {
+                    bgMusic.pause();
+                } else {
+                    bgMusic.play().catch(() => {});
+                }
+            });
+        </script>
+    </body>
+</html>
